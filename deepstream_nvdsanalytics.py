@@ -81,7 +81,7 @@ def GetAlerts(alertFile):
         except:
             alert=[]
     return alert
- 
+
 def WriteAlerts(alertList, alertFile):
     #user_settings=GetUserSettings()
     alert_path=alertFile
@@ -96,7 +96,7 @@ def UpdateAlert(alert):
     WriteAlerts(alertList, alertFile)
 
 def video_record(frame):
- 
+
     # cap = cv.VideoCapture(0)
     # Define the codec and create VideoWriter object
     fourcc = cv.VideoWriter_fourcc(*'XVID')
@@ -169,21 +169,21 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                     # print("user meta---------------------", user_meta)
                     if user_meta.base_meta.meta_type == pyds.nvds_get_user_meta_type("NVIDIA.DSANALYTICSOBJ.USER_META"):
                         user_meta_data = pyds.NvDsAnalyticsObjInfo.cast(user_meta.user_meta_data)
-                        if user_meta_data.dirStatus: 
+                        if user_meta_data.dirStatus:
                             pass
                             # print(
                             # "Object {0} moving in direction: {1}".format(obj_meta.object_id, user_meta_data.dirStatus))
-                        if user_meta_data.lcStatus: 
+                        if user_meta_data.lcStatus:
                             pass
                             # print(
                             # "Object {0} line crossing status: {1}".format(obj_meta.object_id, user_meta_data.lcStatus))
-                        if user_meta_data.ocStatus: 
+                        if user_meta_data.ocStatus:
                             pass
                             # print(
                             # "Object {0} overcrowding status: {1}".format(obj_meta.object_id, user_meta_data.ocStatus))
                         if user_meta_data.roiStatus == ['RF-0']:
                             print("+++++++++++++++++++++++++++++++++++++ ROI-0 +++++++++++++++++++++++++++++++++++++++++++++++++++")
-                            # user_meta_data.roiStatus == ['RF-0'] 
+                            # user_meta_data.roiStatus == ['RF-0']
                             try:
                                 if (obj_meta.class_id == 0 and obj_meta.object_id not in roi_tracker_1):
                                     message = "Intrusion Detected Stream-1"
@@ -192,10 +192,10 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                                     id_obj = obj_meta.object_id
                                     data_dict = {"Id": id_obj,
                                                 "Date": detected_date,
-                                                "Time": detected_time, 
+                                                "Time": detected_time,
                                                 "Message": message}
                                     print(data_dict)
-                                    
+
                                     UpdateAlert(data_dict)
                                     print(detected_date, "------------------------------------------", detected_time)
                                     person_count_1 += 1
@@ -203,7 +203,7 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                                     print("tracking_id ROI-1=====================================", roi_tracker_1)
                             except Exception as E:
                                 print(E)
-                        elif user_meta_data.roiStatus == ['RF-1']:  
+                        elif user_meta_data.roiStatus == ['RF-1']:
 
                             print("---------------------------------------- ROI-1 -----------------------------------------------------")
                             try:
@@ -214,7 +214,7 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                                     id_obj = obj_meta.object_id
                                     data_dict = {"Id": id_obj,
                                                 "Date": detected_date,
-                                                "Time": detected_time, 
+                                                "Time": detected_time,
                                                 "Message": message}
                                     print(data_dict)
                                     UpdateAlert(data_dict)
@@ -227,7 +227,7 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                                 print(E)
 
 
-                        elif user_meta_data.roiStatus == ['RF-2']:  
+                        elif user_meta_data.roiStatus == ['RF-2']:
 
                             print("---------------------------------------- ROI-2 -----------------------------------------------------")
                             try:
@@ -238,7 +238,7 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                                     id_obj = obj_meta.object_id
                                     data_dict = {"Id": id_obj,
                                                 "Date": detected_date,
-                                                "Time": detected_time, 
+                                                "Time": detected_time,
                                                 "Message": message}
                                     print(data_dict)
                                     UpdateAlert(data_dict)
@@ -249,7 +249,7 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
 
                             except Exception as E:
                                 print(E)
-                                
+
 
                 except StopIteration:
                     break
@@ -274,7 +274,7 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                     user_meta_data = pyds.NvDsAnalyticsFrameMeta.cast(user_meta.user_meta_data)
                     # print("user_meta_data-------------------------", user_meta_data)
                     if user_meta_data.objInROIcnt:
-                        # print("-------------------------", user_meta_data.objInROIcnt) 
+                        # print("-------------------------", user_meta_data.objInROIcnt)
                         print("Objs in ROI: {0}".format(user_meta_data.objInROIcnt))
                     if user_meta_data.objLCCumCnt: print(
                         "Linecrossing Cumulative: {0}".format(user_meta_data.objLCCumCnt))
@@ -501,7 +501,7 @@ def main(args):
     streammux.set_property('height', 1080)
     streammux.set_property('batch-size', number_sources)
     streammux.set_property('batched-push-timeout', 4000000)
-    pgie.set_property('config-file-path', "padeco_pgie.txt")
+    pgie.set_property('config-file-path', "crowd_pgie.txt")
     pgie_batch_size = pgie.get_property("batch-size")
     if (pgie_batch_size != number_sources):
         print("WARNING: Overriding infer-config batch-size", pgie_batch_size, " with number of sources ",
@@ -591,7 +591,7 @@ def main(args):
             print(i, ": ", source)
 
     print("Starting pipeline \n")
-    # start play back and listed to events		
+    # start play back and listed to events
     pipeline.set_state(Gst.State.PLAYING)
     try:
         loop.run()
