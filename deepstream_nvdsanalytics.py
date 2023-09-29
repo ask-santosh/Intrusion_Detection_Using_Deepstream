@@ -61,19 +61,8 @@ person_count_2 = 0
 person_count_3 = 0
 # data_dict = {}
 
-# filename = 'data.json'
-# listObj = []
-# isFile = os.path.isfile(filename)
-# if (not isFile):
-#     with open(filename, 'w') as fp:
-#         pass
-# else:
-#    print(f'The {filename} file exists.')
-
-
+# Functions for wrting and appending alerts into JSON file
 def GetAlerts(alertFile):
-    #user_settings=GetUserSettings()
-    #alert_path=user_settings["file_path"]["alert"]
     alert_path=alertFile
     with open(alert_path) as file:
         try:
@@ -97,23 +86,10 @@ def UpdateAlert(alert):
 
 def video_record(frame):
 
-    # cap = cv.VideoCapture(0)
     # Define the codec and create VideoWriter object
     fourcc = cv.VideoWriter_fourcc(*'XVID')
     out = cv.VideoWriter('output.avi', fourcc, 20.0, (1920,  1080))
-    # while cap.isOpened():
-        # ret, frame = cap.read()
-        # if not ret:
-            # print("Can't receive frame (stream end?). Exiting ...")
-            # break
-        # frame = cv.flip(frame, 0)
-        #    write the flipped frame
     out.write(frame)
-    # cv.imshow('frame', frame)
-    # if cv.waitKey(1) == ord('q'):
-        # break
-# Release everything if job is finished
-    # cap.release()
     out.release()
     cv.destroyAllWindows()
 
@@ -182,8 +158,6 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                             # print(
                             # "Object {0} overcrowding status: {1}".format(obj_meta.object_id, user_meta_data.ocStatus))
                         if user_meta_data.roiStatus == ['RF-0']:
-                            print("+++++++++++++++++++++++++++++++++++++ ROI-0 +++++++++++++++++++++++++++++++++++++++++++++++++++")
-                            # user_meta_data.roiStatus == ['RF-0']
                             try:
                                 if (obj_meta.class_id == 0 and obj_meta.object_id not in roi_tracker_1):
                                     message = "Intrusion Detected Stream-1"
@@ -200,12 +174,9 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                                     print(detected_date, "------------------------------------------", detected_time)
                                     person_count_1 += 1
                                     roi_tracker_1.append(obj_meta.object_id)
-                                    print("tracking_id ROI-1=====================================", roi_tracker_1)
                             except Exception as E:
                                 print(E)
                         elif user_meta_data.roiStatus == ['RF-1']:
-
-                            print("---------------------------------------- ROI-1 -----------------------------------------------------")
                             try:
                                 if (obj_meta.class_id == 0 and obj_meta.object_id not in roi_tracker_2):
                                     message = "Intrusion Detected Stream-2"
@@ -221,15 +192,11 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                                     # video_record(l_frame)
                                     person_count_2 += 1
                                     roi_tracker_2.append(obj_meta.object_id)
-                                    print("tracking_id ROI-1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ", roi_tracker_2)
-
                             except Exception as E:
                                 print(E)
 
 
                         elif user_meta_data.roiStatus == ['RF-2']:
-
-                            print("---------------------------------------- ROI-2 -----------------------------------------------------")
                             try:
                                 if (obj_meta.class_id == 0 and obj_meta.object_id not in roi_tracker_3):
                                     message = "Intrusion Detected Stream-3"
@@ -245,8 +212,6 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                                     # video_record(l_frame)
                                     person_count_3 += 1
                                     roi_tracker_3.append(obj_meta.object_id)
-                                    print("tracking_id ROI-2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ", roi_tracker_3)
-
                             except Exception as E:
                                 print(E)
 
