@@ -157,6 +157,8 @@ def nvanalytics_src_pad_buffer_probe(pad, info, u_data):
                             pass
                             # print(
                             # "Object {0} overcrowding status: {1}".format(obj_meta.object_id, user_meta_data.ocStatus))
+                        
+                        ## Logic for intrusion alerts and storing alerts into JSON files.
                         if user_meta_data.roiStatus == ['RF-0']:
                             try:
                                 if (obj_meta.class_id == 0 and obj_meta.object_id not in roi_tracker_1):
