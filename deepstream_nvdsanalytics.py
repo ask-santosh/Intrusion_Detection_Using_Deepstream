@@ -84,14 +84,14 @@ def UpdateAlert(alert):
     alertList.append(alert)
     WriteAlerts(alertList, alertFile)
 
-def video_record(frame):
+# def video_record(frame):
 
-    # Define the codec and create VideoWriter object
-    fourcc = cv.VideoWriter_fourcc(*'XVID')
-    out = cv.VideoWriter('output.avi', fourcc, 20.0, (1920,  1080))
-    out.write(frame)
-    out.release()
-    cv.destroyAllWindows()
+#     # Define the codec and create VideoWriter object
+#     fourcc = cv.VideoWriter_fourcc(*'XVID')
+#     out = cv.VideoWriter('output.avi', fourcc, 20.0, (1920,  1080))
+#     out.write(frame)
+#     out.release()
+#     cv.destroyAllWindows()
 
 
 # nvanlytics_src_pad_buffer_probe  will extract metadata received on nvtiler sink pad
